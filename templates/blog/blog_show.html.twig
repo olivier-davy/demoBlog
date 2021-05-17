@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+BlogSymfony | Détail de l'article :
+    
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+    
+    <h1 class="display-4 fst-italic text-center">Détail de l'article</h1>
+
+     <div class="col-md-12">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">World</strong>
+                    <h3 class="mb-0">{{ article.titre }}</h3>
+                    <div class="mb-1 text-muted">{{ article.date|date('d/m/y à h:i:s')}}</div>
+                    {# raw : filtre twig permettant de supprimer les balises à l'affichage mais de les interpréter dans le code #}
+                    <p class="card-text mb-auto">{{ article.contenu|raw }}</p>
+                    <a href="{{ path('blog')}}" class="stretched-link">Retour articles</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ article.image|replace({'300/300':'700/700'}) }}" alt="{{ article.titre }}">
+                    {# replace() : fonction Twig permettant de remplacer un élément dans la chaine de caractère  #}
+                </div>
+            </div>
+        </div>
+        </div>
+    
+{% endblock %}

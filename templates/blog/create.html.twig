@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+
+    blogSymfony | Nouvel article
+    
+{% endblock %}
+
+{% block body %}
+    
+    <h1 class="display-4 fst-italic text-center">Nouvel article :</h1>
+
+    <div class="container">
+
+    {{ form_start(formArticle)}}
+
+        {{ form_row(formArticle.titre, {'label': "Titre de l'article :"})}}
+        {{ form_row(formArticle.contenu, {'attr': {'rows' : 7},'label': "Contenu de l'article :"})}}
+        {{ form_row(formArticle.image, {'label': "Image :"})}}
+
+         <input type="submit" class="btn btn-dark mb-2 mt-2" value="Enregistrer">
+
+    {{ form_end(formArticle) }}
+
+    {# <form action="" method="post">
+    
+    <label for="titre">Titre :</label>
+    <input type="text" name="titre" placeholder="Titre de l'article"><br><br>
+    
+    <label for="contenu">Contenu :</label>
+    <textarea name="contenu" id="contenu" cols="30" rows="5"></textarea><br><br>
+
+    <label for="image">Image :</label>
+    <input type="text" name="image" placeholder="url de l'image"><br><br>
+
+    <input type="submit" value="Enregistrer">
+    
+    </form> #}
+
+    </div>
+
+{% endblock %}

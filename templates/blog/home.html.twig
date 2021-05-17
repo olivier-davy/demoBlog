@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{# Twig est un moteur de template, un langage de rendu, toute les données provenant du controller seront traitées avec le langage Twig, donc plus aucune ligne de PHP dans les rendus visuel  #}
+
+{# le bloc 'body' fait référence au bloc 'body' du fichier base.html.twig #}
+
+
+{% block body %}
+
+    <div class="container">
+    
+
+    <h1 class="display-6 fst-italic text-center">{{ title }}</h1>
+    {#{{ }}-> double accolade, ce que l'on appel une interpolation  #}
+    {# {%   %} -> comande Twig #}
+    {# title : variable Twig qui provient du controller BlogController -> render([])} #}
+
+    {# {% if age > 18 %}
+        <p>Tu es majeur et tu as {{age}} ans</p>
+    {% else %}
+        <p>Tu es mineur</p>    
+    {% endif %} #}
+
+    <p>lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet</p>
+    <p>lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet</p>
+    <p>lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet lorem ipsum dolor sit amet, consectet, lorem ipsum dolor sit amet</p>
+
+    </div>
+
+{% endblock %}

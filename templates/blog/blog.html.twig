@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}
+BlogSymfony | Liste des articles
+    
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="display-4 fst-italic text-center">Liste des articles :</h1>
+
+    <div class="row mb-2">
+
+        {# articles représente tout les articles selectionnés en BDD  #}
+        {# oneArticle #}
+       {% for oneArticle in articles %}
+
+       {# Pour piocher dans la variable de reception oneArticle nous utilisons le '.' -> oneArticle.titre #}
+       {# striptags : filtre permettant de supprimer les balises html éventuelement stockés en BDD #}
+        {# slice() : permettant de couper une partie de la chaine de caractere #}
+
+        <div class="col-md-4">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">World</strong>
+                    <h3 class="mb-0">{{oneArticle.titre}}</h3>
+                    <div class="mb-1 text-muted">Posté le {{oneArticle.date|date('d/m/y')}} à {{oneArticle.date|date('h:i:s')}}</div>
+                    <p class="card-text mb-auto">{{oneArticle.contenu|striptags|slice(0,100)}}</p>
+                    <a href="{{ path('blog_show', {'id' : oneArticle.id}) }}" class="stretched-link">Lire la suite</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ oneArticle.image}}" alt="{{oneArticle.titre}}">
+
+                </div>
+            </div>
+        </div>  
+
+         {% endfor %}     
+    
+    </div>
+    
+{% endblock %}
