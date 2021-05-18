@@ -57,7 +57,7 @@ class BlogController extends AbstractController
     public function create(Request $request, EntityManagerInterface $manager, Article $article = null) : Response
     
     {
-        // La classe Request permet de stocker les données http véhiculé par les superglobales ($_post? £8get? £8files etc ...)
+        // La classe Request permet de stocker les données http véhiculées par les superglobales ($_post? $_get? $_files etc ...)
         // dump($request);
         // Si les données de $_POST saisie dans le formulaire sont > à 0, cela veut dire que l'internaute a saisi des données dans le formulaire, on entre dans le IF
         // if($request->request->count() > 0) 
@@ -98,17 +98,25 @@ class BlogController extends AbstractController
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) 
         {
-            $article->setDate(new \DateTime());
+            // si l'id de l'article est nul alors on entre dans le if et on génére une date de création
+            if (!$article->getID())
+            {
+                $article->setDate(new \DateTime());
+            }
+            
+
             $manager->persist($article); // prépare et garde en mémoire la requete SQL d'insertion
             $manager->flush(); // execute la requete SQL d'insertion
 
+            // après l'insertion en bdd on fait en sorte de rediriger l'internaute vers l'article
             return $this->redirectToRoute('blog_show', [
                 'id'=> $article->getId() // blog_show est une route parametrée, il faut lui fournir l'id à transmettre dans l'url
             ]);
         }
 
         return $this->render('blog/create.html.twig', [
-            'formArticle'=>$formArticle->createView() // createView() créee un petit objet permettant de mettre en forme et d'afficher le formulaire dans le template.
+            'formArticle'=>$formArticle->createView(), // createView() créee un petit objet permettant de mettre en forme et d'afficher le formulaire dans le template.
+            'editMode' => $article->getId() // Si editMode dans le template renvoi TRUE, alors l'article possède un ID, c'est une modification sinon si elel renvois FALSE, c'est une insertion.
         ]);
     }
 
