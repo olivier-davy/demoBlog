@@ -2,23 +2,40 @@
 
 {% block title %}
 
-    blogSymfony | Nouvel article
+    blogSymfony |
+    
+    {% if editMode %}
+        Modification de l'article 
+    {% else %}
+        Nouvel article 
+    {% endif %}       
     
 {% endblock %}
 
 {% block body %}
     
-    <h1 class="display-4 fst-italic text-center">Nouvel article :</h1>
-
+    <h1 class="display-4 fst-italic text-center">
+    {% if editMode %}
+        Modification de l'article :
+    {% else %}
+        Nouvel article :
+    {% endif %}
+    </h1>
     <div class="container">
-
+    {# ouverture de la balise <form> + method="" + action=""  #}
     {{ form_start(formArticle)}}
 
         {{ form_row(formArticle.titre, {'label': "Titre de l'article :"})}}
         {{ form_row(formArticle.contenu, {'attr': {'rows' : 7},'label': "Contenu de l'article :"})}}
         {{ form_row(formArticle.image, {'label': "Image :"})}}
 
-         <input type="submit" class="btn btn-dark mb-2 mt-2" value="Enregistrer">
+        <button type="submit" class="btn btn-dark mb-2 mt-2">
+
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Enregistrer un nouvel article
+        {% endif %}  
 
     {{ form_end(formArticle) }}
 

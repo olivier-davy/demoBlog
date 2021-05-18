@@ -20,7 +20,8 @@ BlogSymfony | Détail de l'article :
                     <div class="mb-1 text-muted">{{ article.date|date('d/m/y à h:i:s')}}</div>
                     {# raw : filtre twig permettant de supprimer les balises à l'affichage mais de les interpréter dans le code #}
                     <p class="card-text mb-auto">{{ article.contenu|raw }}</p>
-                    <a href="{{ path('blog')}}" class="stretched-link">Retour articles</a>
+                    <a href="{{ path('blog')}}" class="stretched-link">Retour aux articles</a>
+                    <a href="{{ path('blog_edit', {'id': article.id})}}" class="stretched-link">Modification de l'article</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img src="{{ article.image|replace({'300/300':'700/700'}) }}" alt="{{ article.titre }}">
