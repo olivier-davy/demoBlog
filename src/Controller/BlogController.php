@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -128,7 +130,7 @@ class BlogController extends AbstractController
      * @route("/blog/{id}", name="blog_show")       
      * 
     */ 
-    public function blogShow(Article $article): Response
+    public function blogShow(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
 
         // dump($id);
@@ -140,9 +142,40 @@ class BlogController extends AbstractController
         // $article = $repoArticle->find($id);
         dump($article);
 
-        return $this->render('blog/blog_show.html.twig', [
-            'article' => $article // on transmet l'article selectionné en BDD au template pour pouvoir le traiter et l'afficher avec Twig
+        // Traitement d'ajout de commentaire
+        $comment = new Comment;
 
+        // On crée le formulaire à partir de la class CommentType et on relie le formulaire à l'entité $comment
+        $formComment = $this->createForm(CommentType::class, $comment);
+
+        dump($request);
+
+        $formComment->handleRequest($request);
+
+        dump($comment);
+
+        if($formComment->isSubmitted() && $formComment->isValid()) 
+        {
+               $comment -> setDate(new \dateTime) // on insère une date de création de commentaire
+                        -> setArticle($article); // on relie le commentaire à l'article (clé étrangère)
+
+               $manager->persist($comment); // on prépar et on garde en mémoir la requête d'insertion
+               $manager->flush();   // on execute
+
+               // Après l'insertion, on affihce un message de validation stocké en session
+               $this->addFlash('success',"Le commentaire a été posté avec succès !");
+
+               // on redirige l'internaute vers l'affichage de l'article juste après l'insertion du commentaire
+               return $this->redirectToRoute('blog_show', [
+                    'id' => $article->getId()   
+                
+                ]);
+
+        }
+
+        return $this->render('blog/blog_show.html.twig', [
+            'article' => $article, // on transmet l'article selectionné en BDD au template pour pouvoir le traiter et l'afficher avec Twig
+            'formComment' => $formComment->createView()
         ]);
     }
 

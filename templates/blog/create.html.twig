@@ -26,6 +26,7 @@
     {{ form_start(formArticle)}}
 
         {{ form_row(formArticle.titre, {'label': "Titre de l'article :"})}}
+        {{ form_row(formArticle.category, {'label': "Catégorie de l'article :"})}}
         {{ form_row(formArticle.contenu, {'attr': {'rows' : 7},'label': "Contenu de l'article :"})}}
         {{ form_row(formArticle.image, {'label': "Image :"})}}
 
