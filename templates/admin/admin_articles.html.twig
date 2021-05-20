@@ -1,0 +1,72 @@
+{% extends "base.admin.html.twig" %}
+
+{% block title %}
+
+    BlogSymfony | Gestion des articles
+    
+{% endblock %}
+
+{% block body %}
+
+    {# <h1>Gestion des articles</h1> #}
+
+    {# affihage des messages utilisateur de validation de suppression #}
+    {% for message in app.flashes('success') %}
+
+    <p class="col-md-4 bg-success text-center text-white mx-auto rounded">
+    {{ message }}
+    </p>
+        
+    {% endfor %}
+
+    <a href="{{path('blog_create')}}" class="btn btn-primary mt-4">Création d'un nouvel article</a>
+
+    <table class="table table-bordered text-center mt-4">
+    
+    <tr class="text-center">
+    {# colonnes : variables provenant de adminController qui contient touts les noms des champs de la table sql Article #}
+    {# data : variable de reception qui receptionne une colonne par tour de boucle #}
+    {% for data in colonnes %}
+
+        <th>{{data|upper}}</th>
+        
+    {% endfor %}
+
+        <th>CAT</th>
+        <th>NB COMMENT</th>
+    
+    </tr>
+    {# articles : variables provenant de adminController qui contient touts les articles des champs de la table sql Article #}
+    {# data : variable de reception qui receptionne un article par tour de boucle #}
+    {% for data in articles %}
+
+        <tr>
+            <td>{{ data.id }}</td>
+            <td><a href="{{ path('blog_show', {'id':data.id}) }}"> {{ data.titre }}</a></td>
+            <td>{{ data.contenu|striptags }}</td>
+            <td><img src="{{ asset('uploads/images/' ~ data.image) }}" alt="{{ data.titre }}" class="img-article"</td>
+            <td class ="text-center">{{data.date|date('d/m/Y à H:i:s') }}</td>
+            <td class ="text-center">{{data.category.titre}}</td>
+            <td class ="text-center">{{data.comments|length }}</td>
+
+           <td>
+           
+            <a href="{{ path('blog_edit', {'id':data.id})}}" class="btn btn-dark"><i class=" bi bi-pencil-square"></i></a> 
+           
+           </td>
+               
+           <td>
+            
+             <a href="{{ path('admin_article_remove', {'id':data.id}) }}" class="btn btn-danger" 
+             onclick="return(confirm('Voulez vous vraiment supprimer cet article ?'))"><i class="bi bi-trash"></i></a>
+            
+            </td>
+
+
+        </tr>
+        
+    {% endfor %}
+    
+    </table>
+    
+{% endblock %}
