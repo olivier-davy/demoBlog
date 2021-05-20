@@ -29,6 +29,9 @@ class Article
      *      minMessage = "Le titre de l'article doit comporter {{ limit }} caractères au minimum",
      *      maxMessage = "Le titre de l'article doit comporter {{ limit }} caractères au maximum"
      * )
+     * @Assert\NotBlank(
+     *      message = "Merci de saiir un contenu"
+     * )
      */
     private $titre;
 
@@ -41,6 +44,9 @@ class Article
      *      minMessage = "L'article doit comporter {{ limit }} caractères au minimum",
      *      maxMessage = "L'article doit comporter {{ limit }} caractères au maximum"
      * 
+     * )
+     * @Assert\NotBlank(
+     *      message = "Merci de saiir un contenu"
      * )
      * 
      */

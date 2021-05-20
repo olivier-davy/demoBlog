@@ -35,7 +35,7 @@ BlogSymfony | Détail de l'article :
                     <a href="{{ path('blog_edit', {'id': article.id})}}" class="stretched-link">Modification de l'article</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                    <img src="{{ article.image|replace({'300/300':'700/700'}) }}" alt="{{ article.titre }}">
+                    <img src="{{ asset('uploads/images/' ~ article.image) }}" alt="{{ article.titre }}">
                     {# replace() : fonction Twig permettant de remplacer un élément dans la chaine de caractère  #}
                 </div>
             </div>
@@ -85,7 +85,7 @@ BlogSymfony | Détail de l'article :
             </div> 
 
             {% else %}
-            {# Sinon l'article ne possède pas de commentaire, on entre dansle else}
+            {# Sinon l'article ne possède pas de commentaire, on entre dans le else #}
 
 
             <h4 class="mt-5 mb-2">Soyez le premier à poster votre avis ...</h4>

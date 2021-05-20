@@ -30,6 +30,14 @@
         {{ form_row(formArticle.contenu, {'attr': {'rows' : 7},'label': "Contenu de l'article :"})}}
         {{ form_row(formArticle.image, {'label': "Image :"})}}
 
+        {% if imageArticle %}
+
+            <p class="mt-2">
+                <em>Vous pouvez uploader une autre image si vous le souhaitez</em><br>
+                <img src="{{ asset('uploads/images/' ~ imageArticle) }}" alt"">"
+            </p>    
+        {% endif %}
+
         <button type="submit" class="btn btn-dark mb-2 mt-2">
 
         {% if editMode %}
