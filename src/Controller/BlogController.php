@@ -11,7 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BlogController extends AbstractController
 {
@@ -56,7 +58,7 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
     */
-    public function create(Request $request, EntityManagerInterface $manager, Article $article = null) : Response
+    public function create(Request $request, EntityManagerInterface $manager, Article $article = null, SluggerInterface $slugger) : Response
     
     {
         // La classe Request permet de stocker les données http véhiculées par les superglobales ($_post? $_get? $_files etc ...)
@@ -98,12 +100,44 @@ class BlogController extends AbstractController
 
         dump($article);
 
+        
+
         if($formArticle->isSubmitted() && $formArticle->isValid()) 
         {
             // si l'id de l'article est nul alors on entre dans le if et on génére une date de création
             if (!$article->getID())
             {
                 $article->setDate(new \DateTime());
+            }
+
+            // Traitement de l'image
+            $image = $formArticle->get('image')->getData();
+            dump($image);
+
+            if($image)
+            {
+                // On récupère le nom d'origine du fichier
+                $nomOrigineFichier = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                dump($nomOrigineFichier);
+
+                $secureNomFichier = $slugger->slug($nomOrigineFichier);
+                dump($secureNomFichier);
+
+                $nouveauNomFichier = $secureNomFichier . '-'. uniqid() .'.'.$image->guessExtension();
+                dump($nouveauNomFichier);
+
+                try{
+                // on copie l'image dans le bon dossier (images_directory service.yaml)
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $nouveauNomFichier
+                    );
+
+                }catch(FileException $e){
+
+                }
+
+                $article->setImage($nouveauNomFichier);
             }
             
 
@@ -118,7 +152,9 @@ class BlogController extends AbstractController
 
         return $this->render('blog/create.html.twig', [
             'formArticle'=>$formArticle->createView(), // createView() créee un petit objet permettant de mettre en forme et d'afficher le formulaire dans le template.
-            'editMode' => $article->getId() // Si editMode dans le template renvoi TRUE, alors l'article possède un ID, c'est une modification sinon si elel renvois FALSE, c'est une insertion.
+            'editMode' => $article->getId(), // Si editMode dans le template renvoi TRUE, alors l'article possède un ID, c'est une modification sinon si elel renvois FALSE, c'est une insertion.
+            'imageArticle' => $article->getImage() // on transmet l'image de l'article afin de l'afficher en cas de modification
+
         ]);
     }
 

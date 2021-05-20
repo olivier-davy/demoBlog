@@ -22,7 +22,15 @@
   <header class="blog-header py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
-        <a class="link-secondary" href="#">Créer votre compte</a>
+      {# app : variable qui stocke toutes le sinformations de la sessiona en cours #}
+      {# Sinon app.user renvoi FALSE, l'utilisateur n'est pas connecté, on entre dans le ELSE #}
+
+      {% if app.user %} 
+        <span class="text-secondary">Bonjour <strong>{{ app.user.prenom}} {{app.user.nom}}</strong> <span>
+      {% else %}
+        <a class="link-secondary" href="{{ path('security_registration')}}">Créer votre compte :</a>
+      {% endif %}
+        
       </div>
       <div class="col-4 text-center">
         {# <a class="blog-header-logo text-dark" href="#">Large</a> #}
@@ -31,7 +39,13 @@
         <a class="link-secondary" href="#" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
         </a>
-        <a class="btn btn-sm btn-outline-secondary" href="#">Indentifiez vous</a>
+
+        {% if app.user %}
+          <a class="btn btn-sm btn-outline-secondary" href="{{ path('security_logout')}}">Se deconnecter</a>
+        {% else %}
+        <a class="btn btn-sm btn-outline-secondary" href="{{ path('security_login')}}">Identifiez vous</a>
+        {% endif %}
+
       </div>
     </div>
   </header>
@@ -64,7 +78,7 @@
   </div>
 
 </div>
-
+    {# {{ dump(app.user)}} #}
     <main class="container-fluid">
 
         {% block body %}

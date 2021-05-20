@@ -1,7 +1,20 @@
 security:
+    # on définit un encoder, c'est à dire que l'on préciuse due dans l'entité user nous allons encoder une valeur
+    #avec un agorithm bcypt#
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+        
+        # On définit un provider afin de préciser à Symfony où sont stockés les données de l'utilisateur et quelle propriété sera controllée au moment de la connexion
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,7 +22,18 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
+
+            # on définit par rapport à quel provider, quelles données de la bdd sont à comparer au moment d ela connexion
+            provider: in_database
+            # on définit qu la connexion s'établie via un fomulaire de login
+            form_login:
+                login_path: security_login # route du formulaire
+                check_path: security_login # route pour comparer les identifiants de connexion
+
+            # on définit la route permettent de se déconnecter    
+            logout:
+                path: security_logout
+                target: blog    
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

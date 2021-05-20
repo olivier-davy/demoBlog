@@ -8,7 +8,9 @@ use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -39,8 +41,23 @@ class ArticleType extends AbstractType
                 'required' => false
             ])
 
-            ->add('image')
-            // ->add('date')
+            ->add('image', FileType::class, [
+                'mapped' => true, // signifie que le champ est associé à une propriété et qu'il sera inséré en Bdd
+                'required' => false,
+                'data_class' => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '7M', // taille maximum d'upload d'image
+                        'mimeTypes' => [ // format accepté
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg'
+                        ],
+                        'mimeTypesMessage' => 'Formats autorisés : jpg/jpeg/png'
+                    ])
+                ]
+            ])
+            
         ;
     }
 
