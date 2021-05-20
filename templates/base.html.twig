@@ -41,7 +41,16 @@
         </a>
 
         {% if app.user %}
-          <a class="btn btn-sm btn-outline-secondary" href="{{ path('security_logout')}}">Se deconnecter</a>
+              {# is_granted ets une fonction de twig. Si l'utilisdateur a un role garantit en bdd ROLE_ADMIn, on 
+              affiche un lien permettant d'accéder au backoffice #}
+              {% if is_granted('ROLE_ADMIN') %}
+
+               <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin')}}">BackOffice</a>
+                
+              {% endif %}
+              &nbsp;
+
+          <a class="btn btn-sm btn-outline-secondary" href="{{ path('security_logout')}}">Deconnection</a>
         {% else %}
         <a class="btn btn-sm btn-outline-secondary" href="{{ path('security_login')}}">Identifiez vous</a>
         {% endif %}

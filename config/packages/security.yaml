@@ -44,5 +44,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    # si un utilisateur ROLE_USER tente d'accéder à la route admin du backoffice, on le redirige vers les route /blog, l'affichage des article
+    access_denied_url: blog    
