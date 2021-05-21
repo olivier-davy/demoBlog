@@ -1,0 +1,70 @@
+{% extends "base.admin.html.twig" %}
+
+{% block title %}
+
+    BlogSymfony | Gestion des commentaires
+    
+{% endblock %}
+
+{% block body %}
+
+{# <h1>Gestion des commentaires</h1> #}
+
+{% for message in app.flashes('success') %}
+
+    <p class="col-md-4 bg-success text-center p-3 text-white mx-auto rounded mt-4">
+    {{ message }}
+    </p>
+        
+    {% endfor %}
+
+<table class="table table-bordered mt-2">
+
+    <tr class="text-center">
+
+        {% for data in colonnes %}
+
+            <th>{{data|upper}} </th>
+            
+        {% endfor %}
+
+        <th>TITRE ARTICLE</th>
+        <th>Moficiafion</th>
+        <th>Suppression</th>  
+
+    </tr>
+
+    {% for data in commentaires %}
+
+        <tr>
+            <td class="text-center">{{ data.id}}</td>
+            <td class="text-center">{{ data.auteur}}</td>
+            <td class="text-center">{{ data.commentaire|raw}}</td>
+            <td class="text-center">{{ data.date|date('d/m/Y à h/m/s')}}</td>
+            <td class="text-center">
+                <a href={{ path('blog_show', {'id': data.article.id}) }}">
+                {{data.article.titre }}
+            </td>
+
+            <td class="text-center">
+             <a href="{{ path('admin_edit_commentaire', {'id': data.id}) }}" class="btn btn-dark">
+                <i class="bi bi-pencil-square"></i>
+            </a>
+            
+            <td class="text-center">
+            <a href="{{ path('admin_remove_commentaire', {'id': data.id}) }}" class="btn btn-danger" 
+            onclick="return(confirm('Voulez vous vraiment supprimez ce commentaire ?'));">
+            <i class="bi bi-trash"></i>
+            </a>            
+            </td>   
+        
+        
+        </tr>
+        
+    {% endfor %}
+
+    </table>
+
+
+    
+{% endblock %}

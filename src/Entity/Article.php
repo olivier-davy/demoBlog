@@ -30,7 +30,7 @@ class Article
      *      maxMessage = "Le titre de l'article doit comporter {{ limit }} caractères au maximum"
      * )
      * @Assert\NotBlank(
-     *      message = "Merci de saiir un contenu"
+     *      message = "Merci de saisir un contenu"
      * )
      */
     private $titre;
