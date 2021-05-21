@@ -7,7 +7,21 @@
 {% block body %}
 
         {# <h1>Gestion des catégories :</h1> #}
+
+
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+
+        {% for message in messages %}
+            
+            
+            <p class="col-md-4 bg-{{ label }} text-center text-white mx-auto rounded">
+            {{ message }}
+            </p>
+
+            {% endfor %}
+    {% endfor %}    
     
+    <a href ="{{ path('admin_new_categorie') }}" class="btn btn-primary mt-4">Création d'une nouvelle catégories</a>
 
     <table class="table table-bordered text-center mt-4">
 
@@ -36,13 +50,13 @@
             <td class ="text-center">{{data.articles|length }}</td>
 
             <td>
-            <a href="" class="btn btn-dark">
+            <a href="{{ path('admin_edit_categorie', {'id': data.id}) }}" class="btn btn-dark">
             <i class="bi bi-pencil"></i>
             </a>            
             </td>
 
             <td>
-            <a href="" class="btn btn-danger" onclick="return(confirm('Voulez vous vraiment supprimez cette catégorie ?'));">
+            <a href="{{ path('admin_remove_categorie', {'id': data.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez vous vraiment supprimez cette catégorie ?'));">
             <i class="bi bi-trash"></i>
             </a>            
             </td>

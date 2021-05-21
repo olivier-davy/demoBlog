@@ -26,7 +26,7 @@ class BlogController extends AbstractController
      public function home(): Response
      {
          return $this->render('blog/home.html.twig', [
-            'title' => 'Bienvenue sur le blog Symfony',
+            'title' => 'Bienvenue sur WebSco',
             'age' => 20
          
          ]);
